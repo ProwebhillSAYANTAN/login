@@ -29,7 +29,7 @@ if(!isset($_SESSION['loggedin'])||$_SESSION['loggedin']!=true){
   <h2>
     <?php
 
-    echo "Welcome  ". $_SESSION['username'];
+    echo "Welcome   ". $_SESSION['username'];
 
 
     ?>

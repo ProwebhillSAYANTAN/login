@@ -14,43 +14,33 @@ if($_SERVER['REQUEST_METHOD']== 'POST'){
         $result=mysqli_query($conn,$sql);
         $num=mysqli_num_rows($result);
 
-        $sql2="Select * from users where password='$password'";
-
-        $result2=mysqli_query($conn,$sql2);
-        $num1=mysqli_num_rows($result2);
-
-        if($num==1 && $num1==1){
-          echo'<div class="alert alert-danger alert-dismissible fade show" role="alert">
-          <strong>Error!</strong> Loggedin.
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>';
-
-
-        session_start();
-        $_SESSION['loggedin']=true;
-        $_SESSION['username']=$uname;
-        header("location:welcome.php");
-        }
-        else if($num==1 && $num1==0){
-          echo'<div class="alert alert-danger alert-dismissible fade show" role="alert">
-          <strong>Error!</strong> Invalid password.
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>';
-
-
+        if($num ==1){
+          while($row=mysqli_fetch_assoc($result)){
+            if(password_verify($password, $row['password'])){
+              session_start();
+              $_SESSION['loggedin']=true;
+              $_SESSION['username']=$uname;
+              header("location: welcome.php");
+            }
+            echo'<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Error!</strong> Invalid password.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>';
+  
+          }
         }
         else{
           echo'<div class="alert alert-danger alert-dismissible fade show" role="alert">
           <strong>Error!</strong> Invalid Cradentials,Please Sign up.
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>';
+       
+
+
         }
-        
-
+       
+        }
       
-
-     
-    }
   
 
 
